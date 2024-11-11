@@ -1,0 +1,28 @@
+- name: create ec2 and r53 records
+  hosts: local
+  connection: local
+  
+  vars:
+    subnet_id: "subnet-0f745b1f2846b188f" # replace with your subnet id
+    sg_id: "sg-0e529c7aeda1ef90f"
+    ami_id: "ami-09c813fb71547fc4f"     #RHEL-9-DevOps-Practice
+
+    instances:
+    - mysql
+    - backend
+    - frontend
+    
+  tasks:
+  - name: create ec2 instance
+    amazon.aws.ec2_instance:
+      name: "{{ item }}"
+      vpc_subnet_id: "{{ subnet_id }}"
+      instance_type: "t3.micro"
+      security_group: "{{ sg_id }}"
+      image_id: "{{ ami_id }}"
+    loop: "{{ instances }}"
+    register: ec2_instances
+
+  - name: print the output
+    ansible.builtin.debug:
+      msg: "{{ ec2_instances }}"
