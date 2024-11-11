@@ -8,7 +8,7 @@
     ami_id: "ami-09c813fb71547fc4f"     #RHEL-9-DevOps-Practice
 
     instances:
-    - mysql
+    - mysql1
     - backend
     - frontend
     
